@@ -7,13 +7,6 @@ async function getPlanets() {
   let data = await response.json();
   return data;
 }
-//  componentDidMount() {
-//      getPlanets().then((data) => {
-//        this.setState((state) => ({
-//          planets: data["planets"],
-//        }));
-//      });
-//    }
 
 const App = () => {
   const [planets, setPlanets] = useState([]);
@@ -22,7 +15,7 @@ const App = () => {
     getPlanets().then((data) => {
       setPlanets(data["planets"]);
     });
-  });
+  }, []);
 
   return (
     <div className="app-body">

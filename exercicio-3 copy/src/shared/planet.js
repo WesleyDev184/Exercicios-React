@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DescriptionWithLink from "./descriptioWithLink";
 
 async function getSatellites(id) {
@@ -7,42 +7,30 @@ async function getSatellites(id) {
   return date;
 }
 
-class Planet extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  state = {
-    satellites: [],
-  };
+const Planet = (props) => {
+  const [satellites, setSatellites] = useState([]);
 
-  componentDidMount() {
-    getSatellites(this.props.id).then((data) => {
-      this.setState((state) => ({
-        satellites: data["satellites"],
-      }));
+  useEffect(() => {
+    getSatellites(props.id).then((data) => {
+      setSatellites(data["satellites"]);
     });
-  }
+  });
 
-  render() {
-    return (
-      <div>
-        <h3>{this.props.name}</h3>
-        <DescriptionWithLink
-          descripion={this.props.descripion}
-          link={this.props.link}
-        />
-        <br />
-        <img src={this.props.imagem}></img>
-        <h4>Satellites</h4>
-        <ul>
-          {this.state.satellites.map((satellite) => (
-            <li>{satellite.name}</li>
-          ))}
-        </ul>
-        <hr />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <h3>{props.name}</h3>
+      <DescriptionWithLink descripion={props.descripion} link={props.link} />
+      <br />
+      <img src={props.imagem}></img>
+      <h4>Satellites</h4>
+      <ul>
+        {satellites.map((satellite) => (
+          <li>{satellite.name}</li>
+        ))}
+      </ul>
+      <hr />
+    </div>
+  );
+};
 
 export default Planet;
